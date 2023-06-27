@@ -1,49 +1,26 @@
-import http from "http";
-import url from "url";
+import mongoose from "mongoose";
+import express from "express";
+import studentRoute from "./routes/studentRoute.js";
 
-const users = [
-  { id: 1, name: "Zymante" },
-  { id: 2, name: "Neringa" },
-  { id: 3, name: "Viola" },
-  { id: 4, name: "Kristina" },
-  { id: 5, name: "Vaida" },
-];
-const port = 5000;
+const app = express();
+const port = 3005;
 
-const server = http.createServer((req, res) => {
-  const parsedUrl = url.parse(req.url);
+app.use(express.json());
 
-  if (req.method === "GET") {
-    if (parsedUrl.pathname === "/") {
-      res.writeHead(200, { "Content-Type": "text/plain" });
-      res.end("Response from server (MAIN ROUTE)");
-    }
-
-    if (parsedUrl.pathname === "/users") {
-      res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify(users));
-    }
+const connectionToDB = async () => {
+  try {
+    await mongoose.connect(
+      "mongodb+srv://admin:admin@cluster0.ruiqf.mongodb.net/students"
+    );
+    console.log("Connected to DB");
+  } catch (error) {
+    console.log(error);
   }
+};
 
-  if (req.method === "POST") {
-    if (parsedUrl.pathname === "/create-user") {
-      let requestFromUser = "";
+app.use("/student", studentRoute);
 
-      req.on("data", (chunk) => {
-        requestFromUser += chunk;
-      });
-
-      req.on("end", () => {
-        const newUser = JSON.parse(requestFromUser);
-        users.push(newUser);
-      });
-
-      res.writeHead(201, { "Content-Type": "application/json" });
-      res.end(JSON.stringify(users));
-    }
-  }
-});
-
-server.listen(port, () => {
-  console.log(`Server is running on port ${port}!`);
+app.listen(port, () => {
+  connectionToDB();
+  console.log(`Server started on port: ${port}`);
 });
