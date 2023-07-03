@@ -15,12 +15,14 @@ router.post("/create", createUser);
 
 router.post("/login", loginUser);
 
-router.get("/get-all", getAllUsers);
-
 router.get("/get", verifySessionToken, getUser);
 
-router.delete("/delete", deleteUser);
+router.delete("/delete", verifySessionToken, deleteUser);
 
-router.put("/update", updateUser);
+router.put("/update/:userName", verifySessionToken, updateUser);
+
+router.get("/get-all", verifySessionToken, getAllUsers); //ADMINS
+
+router.delete("/delete-all", verifySessionToken, getAllUsers); //ADMINS
 
 export default router;

@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 export const loginUser = async (req, res) => {
   try {
     const foundUser = await userModel.findOne({ userName: req.body.userName });
+    console.log("🚀 ~ foundUser:", foundUser);
 
     if (!foundUser) {
       return res.status(404).send("Username or Password is wrong!");
@@ -29,7 +30,9 @@ export const loginUser = async (req, res) => {
       })
       .status(200)
       .send(`Hello, ${foundUser.userName}! You successfully logged in!`);
-  } catch (error) {}
+  } catch (error) {
+    console.log("🚀 ~ error:", error);
+  }
 };
 
 export const createUser = async (req, res) => {
@@ -56,6 +59,17 @@ export const createUser = async (req, res) => {
 export const getAllUsers = async (req, res) => {
   try {
     const allUsers = await userModel.find({}, { password: 0 });
+
+    res.status(200).json(allUsers);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error);
+  }
+};
+
+export const deleteAllUsers = async (req, res) => {
+  try {
+    const allUsers = await userModel.deleteMany({});
 
     res.status(200).json(allUsers);
   } catch (error) {
@@ -95,7 +109,7 @@ export const deleteUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const updatedUser = await userModel.findOneAndUpdate(
-      { userName: req.body.user },
+      { userName: req.params.userName },
       {
         $set: req.body,
       },
