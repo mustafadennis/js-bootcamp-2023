@@ -1,0 +1,16 @@
+.SharedButton {
+  width: 150px;
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  background-color: #d5d4d4;
+  cursor: pointer;
+  color: white;
+  background-color: rgb(101, 103, 105);
+  cursor: pointer;
+}
+
+.ButtonIcon {
+  width: 15px;
+  height: 15px;
+}
