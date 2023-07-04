@@ -1,0 +1,6 @@
+.Footer {
+  display: flex;
+  justify-content: space-around;
+  height: max-content;
+  background-color: bisque;
+}
