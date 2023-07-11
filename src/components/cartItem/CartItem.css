@@ -6,6 +6,7 @@
   align-items: center;
   border: 1px solid gray;
   box-shadow: 2px 2px 2px gray;
+  position: relative;
 }
 
 .CartItemImage {
@@ -29,4 +30,11 @@
 .ButtonIcon {
   width: 15px;
   height: 15px;
+}
+
+.CartItemImageCheck {
+  width: 25px;
+  position: absolute;
+  top: 5px;
+  right: 20px;
 }
