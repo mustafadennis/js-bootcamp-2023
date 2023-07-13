@@ -1,12 +1,14 @@
 import { useState } from "react";
 import "./TodoList.css";
 import { useEffect } from "react";
+import TodoItem from "../todoItem/TodoItem";
+import { ITodoItem } from "../../types";
 
 const TodoList = () => {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState<ITodoItem[]>([]);
   const [isComponentLoaded, setIsComponentLoaded] = useState(false);
   const [remainingItems, setRemainingItems] = useState(0);
-  const [text, setText] = useState({
+  const [text, setText] = useState<ITodoItem>({
     input: "",
     isChecked: false,
   });
@@ -16,7 +18,7 @@ const TodoList = () => {
   };
 
   useEffect(() => {
-    const storedTodos = JSON.parse(localStorage.getItem("todos"));
+    const storedTodos = JSON.parse(localStorage.getItem("todos") || "[]");
     if (storedTodos) {
       setTodos(storedTodos);
     }
@@ -37,34 +39,17 @@ const TodoList = () => {
   return (
     <div>
       <h1>REMAINING TODOS: {remainingItems}</h1>
+      {/* this can be specific compoonent */}
       <input
         onChange={(event) => setText({ ...text, input: event.target.value })}
         type="text"
       />
       <br />
       <button onClick={handleOnClick}>ADD TODOS</button>
+      {/* this can be specific compoonent */}
 
-      <ul>
-        {todos.map((todo, index) => (
-          <div className="todoListItem">
-            <li
-              style={{ textDecoration: todo.isChecked ? "line-through" : "" }}
-            >
-              {todo.input}
-            </li>
-            <input
-              onClick={() => {
-                const updatedTodos = todos.map((todo, i) =>
-                  i === index ? { ...todo, isChecked: !todo.isChecked } : todo
-                );
-                setTodos(updatedTodos);
-              }}
-              type="checkbox"
-            />
-          </div>
-        ))}
-      </ul>
-
+      <TodoItem todos={todos} setTodos={setTodos} />
+      {/* this can be specific compoonent  2*/}
       <button
         onClick={() => {
           const remainingTodos = todos.filter((todo) => !todo.isChecked);
@@ -73,6 +58,7 @@ const TodoList = () => {
       >
         CLEAR TODOS
       </button>
+      {/* this can be specific compoonent 2*/}
     </div>
   );
 };
