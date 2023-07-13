@@ -6,17 +6,13 @@ function App() {
   const [gameWon, setGameWon] = useState(false);
   const [isGameFinished, setIsGameFinished] = useState(false);
   const [isGameStarted, setIsGameStarted] = useState(false);
-  const [seconds, setSeconds] = useState(5);
+  const [isGameBeingPlayed, setIsGameBeingPlayed] = useState(true);
 
   const gameLogic = () => {
     setState((prev) => prev + 1);
   };
 
   useEffect(() => {
-    if (state >= 20) {
-      setIsGameFinished(true);
-    }
-
     if (isGameFinished) {
       if (state >= 20) {
         setGameWon(true);
@@ -26,21 +22,8 @@ function App() {
     }
   }, [isGameFinished, state]);
 
-  useEffect(() => {
-    if (isGameStarted) {
-      const timer = setTimeout(() => {
-        setSeconds((state) => state - 1);
-      }, 1000);
-
-      if (seconds === 0) {
-        clearInterval(timer);
-      }
-    }
-  }, [seconds, isGameStarted]);
-
   const handleStartGame = () => {
     setIsGameStarted(true);
-
     setTimeout(() => {
       setIsGameFinished(true);
     }, 5000);
@@ -56,9 +39,13 @@ function App() {
     }
   };
 
-  const mainGameAction = () => {
-    if (isGameStarted && !isGameFinished) {
-      return (
+  return (
+    <div>
+      <h1>CLICKING GAME</h1>
+      {!isGameStarted && (
+        <button onClick={handleStartGame}>CLICK ME TO START THE GAME</button>
+      )}
+      {isGameStarted && !isGameFinished && (
         <div>
           <button onClick={gameLogic}>CLICK ME</button>
           <br />
@@ -66,26 +53,9 @@ function App() {
           <br />
           <br />
           CLICKED TIMES: {state}
-          <h2>Remaining seconds: {seconds}</h2>
         </div>
-      );
-    }
-  };
-
-  const preGameActionElement = () => {
-    if (!isGameStarted) {
-      return (
-        <button onClick={handleStartGame}>CLICK ME TO START THE GAME</button>
-      );
-    }
-  };
-
-  return (
-    <div>
-      <h1>CLICKING GAME</h1>
-      {preGameActionElement()}
-      {mainGameAction()}
-      {displayGameWon()}
+      )}
+      <div>{displayGameWon()}</div>
     </div>
   );
 }
