@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/js-bootcamp-2023/static/css/main.f0169bbd.css",
+    "main.js": "/js-bootcamp-2023/static/js/main.67928fba.js",
+    "index.html": "/js-bootcamp-2023/index.html",
+    "main.f0169bbd.css.map": "/js-bootcamp-2023/static/css/main.f0169bbd.css.map",
+    "main.67928fba.js.map": "/js-bootcamp-2023/static/js/main.67928fba.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f0169bbd.css",
+    "static/js/main.67928fba.js"
+  ]
+}
